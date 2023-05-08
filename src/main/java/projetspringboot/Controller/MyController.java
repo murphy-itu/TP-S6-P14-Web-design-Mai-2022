@@ -42,10 +42,10 @@ public class MyController {
     
     @RequestMapping("/")
     public String index (@RequestParam HashMap<String,String> params,Model model,HttpSession session) throws Exception {
-        Utilisateur utilisateur = new Utilisateur();
         if (!params.isEmpty()) {
             Connection connection = null ;
             try {
+                Utilisateur utilisateur = new Utilisateur();
                 utilisateur.setPseudo(params.get("pseudo"));
                 connection = datasource.getConnection();
                 List list = genericdao.select(utilisateur,connection);
@@ -68,11 +68,8 @@ public class MyController {
                 if (connection != null) {
                     connection.close();
                 }
-                model.addAttribute("utilisateur",params);
             }
             
-        } else {
-            model.addAttribute("utilisateur",utilisateur);
         }
         return "login";
     }
@@ -206,30 +203,6 @@ public class MyController {
             }
         }
         return "detailcontenu";
-    }
-    
-    @RequestMapping("/listes-articles-sur-les-meuilleurs-informations-sur-intelligence-artificielle-IA")
-    public String listecontenufront (Model model,@RequestParam(required = false) String recherche) throws Exception {
-        Connection connection = null;
-        try {
-            
-            connection = datasource.getConnection();
-            listarticles = (List<Article>)genericdao.select(new Article(),connection);
-            
-            for (Article listarticle : listarticles) {
-                listarticle.setPhoto(genericdao,connection);
-                listarticle.setCategorie(genericdao,connection);
-                listarticle.setUrl();
-            }
-            
-            model.addAttribute("articles",listarticles);
-            
-        } finally {
-            if (connection != null) {
-                connection.close();
-            }
-        }
-        return "listecontenufront";
     }
         
 }
