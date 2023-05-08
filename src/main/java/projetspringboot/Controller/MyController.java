@@ -204,5 +204,52 @@ public class MyController {
         }
         return "detailcontenu";
     }
+    
+    @RequestMapping("/listes-articles-sur-les-meuilleurs-informations-sur-intelligence-artificielle-IA")
+    public String listecontenufront (Model model,@RequestParam(required = false) String recherche) throws Exception {
+        Connection connection = null;
+        try {
+            
+            connection = datasource.getConnection();
+            listarticles = (List<Article>)genericdao.select(new Article(),connection);
+            
+            for (Article listarticle : listarticles) {
+                listarticle.setPhoto(genericdao,connection);
+                listarticle.setCategorie(genericdao,connection);
+                listarticle.setUrl();
+            }
+            
+            model.addAttribute("articles",listarticles);
+            
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return "listecontenufront";
+    }
         
+    @RequestMapping("/article/{categories}/{titre:.+}-{id}")
+    public String detailcontenufront (@PathVariable Integer id,@PathVariable String titre,Model model) throws Exception {
+        Connection connection = null;
+        try {
+           
+            connection = datasource.getConnection();
+            
+            Article article = new Article();
+            article.setId(id);
+            article = (Article) genericdao.select(article,connection).get(0);
+            article.setPhoto(genericdao,connection);
+            article.setCategorie(genericdao,connection);
+            
+            model.addAttribute("article", article);
+        } catch (Exception e) {
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return "detailcontenufront";
+    }
+    
 }
