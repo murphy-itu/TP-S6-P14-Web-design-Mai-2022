@@ -229,7 +229,7 @@ public class MyController {
         return "listecontenufront";
     }
         
-    @RequestMapping("/article/{categories}/{titre:.+}-{id}")
+    @RequestMapping("/article/{categorie}/{titre}-{id}")
     public String detailcontenufront (@PathVariable Integer id,@PathVariable String titre,Model model) throws Exception {
         Connection connection = null;
         try {
