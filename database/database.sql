@@ -39,6 +39,7 @@ create table token (
     delai timestamp
 );
 
+insert into utilisateur values (default,'RAKOTO','Jean','jean@gmail.com','RakJean','jean12345'); 
 
 insert into categorie values (default,'Apprentissage automatique');
 insert into categorie values (default,'Reseaux de neurones');
